@@ -7,27 +7,33 @@
 
     // Things to load first
     function init() {
-      //getAllPosts();
+      $scope.city = {
+        name: 'Denver'
+      }
+      createWeather($scope.city);
     }
     init(); // call init
 
+    /*
     function clearFields() {
       $scope.city.name = "";
     }
+    */
 
     // Create a post
     function createWeather(city) {
       console.log(city);
-      console.log(typeof(city));
 
       $http
         .post("/api/weather", city) // not saying which one so must be all
         .then(function(res) {
           $scope.weather = res.data;
             console.log(res.data);
-            console.log(res.data.summary);
-            console.log(res.data.temperature);
-            clearFields();
+            console.log(res.data.currently.summary);
+
+            // Week
+            console.log(res.data.daily.data);
+            //clearFields();
         });
     }
   }

@@ -66,6 +66,7 @@ router.post("/api/weather", (req, res) => {
     latitude: 0,
     longitude: 0
   };
+  const excludesBlock = 'hourly,minutely,flags';
   // Geocode an address.
   googleMapsClient.geocode({
     address: req.body.name
@@ -74,22 +75,28 @@ router.post("/api/weather", (req, res) => {
 
       position.latitude = response.json.results[0].geometry.location.lat;
       position.longitude = response.json.results[0].geometry.location.lng;
-      console.log(position);
 
       // Weather api
       DarkSkyApi.apiKey = '8180a4c60a0e4f12e51f7b88b74be591';
       DarkSkyApi.proxy = true;
 
-      // Response Units
-      const responseUnits = DarkSkyApi.getResponseUnits();
-
+      /*
       DarkSkyApi.loadCurrent(position)
-        //.then(result => console.log(result));
-        .then((data) => {
-          console.log(`Currently, ${data.summary}`);
-          console.log(`The temperature is ${data.temperature} degrees ${responseUnits.temperature}`);
-          console.log(`The wind speed is ${data.windSpeed} ${responseUnits.windSpeed}`);
-          res.json(data);
+        .then((result) => {
+          //console.log(result);
+          //res.json(result);
+        });
+      DarkSkyApi.loadForecast(position)
+        .then((result) => {
+          //console.log(result);
+          //console.log(result.daily);
+          //res.json(result);
+        });
+        */
+      DarkSkyApi.loadItAll(excludesBlock, position)
+        .then((result) => {
+          console.log(result);
+          res.json(result);
         });
     }
   });

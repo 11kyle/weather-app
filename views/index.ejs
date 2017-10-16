@@ -24,30 +24,55 @@
   <body>
 
     <!-- Begin page content -->
-    <div class="container">
+    <div class="container" align="center">
       <div class="mt-1">
         <h1>SkyCast Inc.</h1>
       </div>
       <p class="lead">The most accurate weather in the Sky!</p>
     </div>
 
-    <div ng-controller="WeatherController" class="container">
-      <div class="row">
-        <form>
-          <input ng-model="city.name" type="text" placeholder="city">
-          <input ng-click="createWeather(city)" type="button" value="Get weather">
-        </form>
+    <div ng-controller="WeatherController" class="container" align="center">
+      <form>
+        <div class="form-row">
+          <div class="col-sm-8">
+            <input ng-model="city.name" class="form-control" type="text" placeholder="city">
+          </div>
+          <div class="col-sm-4">
+            <input ng-click="createWeather(city)" class="form-control" type="button" value="Get weather">
+          </div>
+        </div>
+      </form>
+      <div class="row current-weather">
+        <div class="col-sm-12">
+          <h1>{{ city.name }}</h1>
+          <p>{{ weather.currently.summary }}</p>
+          <h2>{{ weather.currently.temperature }}&deg</h2>
+        </div>
       </div>
-      <div class="row">
-        <p>{{city.name}}</p>
-        <p>Currently, {{ weather.summary }}</p>
-        <p>{{ weather.temperature }}</p>
+      <div class="row daily-weather">
+        <table class="table">
+          <tbody>
+            <tr ng-repeat="day in weather.daily.data" ng-if="!$first">
+              <th scope="row">{{ (day.time * 1000) | date : 'EEEE' }}</th>
+              <td ng-if="day.icon === 'clear-day'"><img src="img/my-icons-collection/png/012-sun.png"></td>
+
+              <td ng-if="day.icon === 'partly-cloudy-day'"><img src="img/my-icons-collection/png/011-cloudy.png"></td>
+              <td ng-if="day.icon === 'partly-cloudy-night'"><img src="img/my-icons-collection/png/007-night.png"></td>
+              <td ng-if="day.icon === 'rain'"><img src="img/my-icons-collection/png/010-storm.png"></td>
+
+
+              <td>{{ day.temperatureHigh }}</td>
+              <td>{{ day.temperatureLow }}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
 
     <footer class="footer">
       <div class="container">
-        <span class="text-muted"><a href="https://darksky.net/poweredby/">Powered by Dark Sky</a></span>
+        <p class="text-muted"><a href="https://darksky.net/poweredby/">Powered by Dark Sky</a></p>
+        <p>Icons made by <a href="https://www.flaticon.com/authors/linector">Linector</a> from <a href="https://www.flaticon.com/">www.flaticon.com</a></p>
       </div>
     </footer>
 
