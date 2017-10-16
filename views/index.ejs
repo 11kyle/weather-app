@@ -46,7 +46,7 @@
         <div class="col-sm-12">
           <h1>{{ city.name }}</h1>
           <p>{{ weather.currently.summary }}</p>
-          <h2>{{ weather.currently.temperature }}&deg</h2>
+          <h2>{{ weather.currently.temperature | number: 0 }}&deg</h2>
         </div>
       </div>
       <div class="row daily-weather">
@@ -61,8 +61,8 @@
               <td ng-if="day.icon === 'rain'"><img src="img/my-icons-collection/png/010-storm.png"></td>
 
 
-              <td>{{ day.temperatureHigh }}</td>
-              <td>{{ day.temperatureLow }}</td>
+              <td>{{ day.temperatureHigh | number: 0 }}</td>
+              <td>{{ day.temperatureLow | number: 0 }}</td>
             </tr>
           </tbody>
         </table>
@@ -71,8 +71,12 @@
 
     <footer class="footer">
       <div class="container">
-        <p class="text-muted"><a href="https://darksky.net/poweredby/">Powered by Dark Sky</a></p>
-        <p>Icons made by <a href="https://www.flaticon.com/authors/linector">Linector</a> from <a href="https://www.flaticon.com/">www.flaticon.com</a></p>
+        <div class="row">
+          <ul>
+            <li><a href="https://darksky.net/poweredby/">Powered by Dark Sky</a></li>
+            <li>Icons made by <a href="https://www.flaticon.com/authors/linector">Linector</a> from <a href="https://www.flaticon.com/">www.flaticon.com</a></li>
+          </ul>
+        </div>
       </div>
     </footer>
 
