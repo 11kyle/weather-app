@@ -1,31 +1,18 @@
-This is an express-starter-template.
+SkyCast Inc. weather application.
 
 node packages used:
-	bcrypt
-	bluebird
-	body-parser
-	connect-flash
 	ejs
 	express
 	express-session
-	mongoose
-	passport
-	passport-local
 
 Open the terminal
 
-cd Documents/express-starter-template
+cd Documents/weather-app
 npm install
-
-Run MongoDB
-
-mongod
-
-Open new terminal tab
 
 Start the server
 
-npm server.js
+node server.js
 
 Run the project
 1. Open a browser
