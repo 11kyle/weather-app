@@ -1,13 +1,6 @@
 var express = require('express');
 var router = express.Router();
 
-var User = require('../models/user');
-var Blog = require('../models/blog');
-
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
-var flash = require('connect-flash');
-
 var mid = require('../middleware');
 
 const DarkSkyApi = require('dark-sky-api');
@@ -15,38 +8,9 @@ const DarkSkyApi = require('dark-sky-api');
 ///////////////////////////////
 //////////Site Routes//////////
 ///////////////////////////////
-// GET /
+// GET /index
 router.get('/', function(req, res, next) {
   res.render('index');
-});
-// GET /login
-router.get('/login', mid.loggedOut, function(req, res, next) {
-  res.render('login');
-});
-// POST /login
-router.post('/login',
-  passport.authenticate('local', { successRedirect: '/admin',
-                                   failureRedirect: '/login',
-                                   failureFlash: true })
-);
-
-// GET /admin
-router.get('/admin', mid.isAuthenticated, function(req, res, next) {
-  res.render('admin');
-});
-
-// GET /logout
-router.get('/logout', function(req, res, next) {
-  if (req.session) {
-    // delete session object
-    req.session.destroy(function(err) {
-      if(err) {
-        return next(err);
-      } else {
-        return res.redirect('/'); // return to home page
-      }
-    });
-  }
 });
 
 ///////////////////////////////
@@ -81,52 +45,24 @@ router.post("/api/weather", (req, res) => {
       DarkSkyApi.proxy = true;
 
       /*
+      // Current day
       DarkSkyApi.loadCurrent(position)
         .then((result) => {
-          //console.log(result);
-          //res.json(result);
+          res.json(result);
         });
+      // 7 day forecast
       DarkSkyApi.loadForecast(position)
         .then((result) => {
-          //console.log(result);
-          //console.log(result.daily);
-          //res.json(result);
+          res.json(result);
         });
         */
+      // All days
       DarkSkyApi.loadItAll(excludesBlock, position)
         .then((result) => {
-          console.log(result);
           res.json(result);
         });
     }
   });
-  //res.sendStatus(200);
 });
-
-// Get weather
-router.get("api/getWeather", (req, res) => {
-
-});
-
-
-
-
-
-
-// Get all Posts
-router.get("/api/blogpost", (req, res) => {
-  Blog.find({}, (err, docs) => {
-    if (docs) {
-      res.json(docs);
-    } else if (err) {
-      res.sendStatus(400);
-    }
-  });
-});
-
-
-
-
-
 
 module.exports = router;
