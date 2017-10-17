@@ -1,7 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var ejs = require('ejs');
-var session = require('express-session');
 
 var app = express();
 
@@ -10,11 +9,6 @@ app.set('port', (process.env.PORT || 3000));
 // Parse incoming content
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: false })); // for parsing application/x-www-form-urlencoded
-app.use(session({
-    secret: 'I love New York',
-    resave: true,
-    saveUninitialized: false // read the readme on express-session
-}));
 
 // GET /all static content
 app.use(express.static(__dirname + '/public'));

@@ -60,6 +60,10 @@ form {
   .col-sm-4 {
     padding: 0;
   }
+  footer ul {
+    display: flex;
+    justify-content: space-between;
+  }
 }
 
 .current-weather h1 {
@@ -80,12 +84,12 @@ form {
 }
 
 footer {
-  
+
 }
 footer ul {
   list-style: none;
   margin-top: 10px;
   margin-bottom: 10px;
-  display: flex;
-  justify-content: space-around;
+  padding: 0;
+  text-align: center;
 }

@@ -18,51 +18,38 @@ router.get('/', function(req, res, next) {
 ///////////////////////////////
 // Create a Post
 router.post("/api/weather", (req, res) => {
-  console.log(req.body.name);
-
-  // Google Geocode
-  var googleMapsClient = require('@google/maps').createClient({
-    key: 'AIzaSyBIsvnDnCKd2r5f5CWeOTM34fLj8uoKvfc'
-  });
+  console.log(req.body);
 
   // position of city
   const position = {
-    latitude: 0,
-    longitude: 0
+    latitude: req.body.latitude,
+    longitude: req.body.longitude
   };
   const excludesBlock = 'hourly,minutely,flags';
-  // Geocode an address.
-  googleMapsClient.geocode({
-    address: req.body.name
-  }, function(err, response) {
-    if (!err) {
 
-      position.latitude = response.json.results[0].geometry.location.lat;
-      position.longitude = response.json.results[0].geometry.location.lng;
+  // Weather api
+  DarkSkyApi.apiKey = '8180a4c60a0e4f12e51f7b88b74be591';
+  DarkSkyApi.proxy = true;
 
-      // Weather api
-      DarkSkyApi.apiKey = '8180a4c60a0e4f12e51f7b88b74be591';
-      DarkSkyApi.proxy = true;
+  /*
+  // Current day
+  DarkSkyApi.loadCurrent(position)
+    .then((result) => {
+      res.json(result);
+    });
 
-      /*
-      // Current day
-      DarkSkyApi.loadCurrent(position)
-        .then((result) => {
-          res.json(result);
-        });
-      // 7 day forecast
-      DarkSkyApi.loadForecast(position)
-        .then((result) => {
-          res.json(result);
-        });
-        */
-      // All days
-      DarkSkyApi.loadItAll(excludesBlock, position)
-        .then((result) => {
-          res.json(result);
-        });
-    }
-  });
+  // 7 day forecast
+  DarkSkyApi.loadForecast(position)
+    .then((result) => {
+      res.json(result);
+    });
+    */
+
+  // All days
+  DarkSkyApi.loadItAll(excludesBlock, position)
+    .then((result) => {
+      res.json(result);
+    });
 });
 
 module.exports = router;

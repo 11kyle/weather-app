@@ -45,8 +45,11 @@
       <div class="row current-weather">
         <div class="col-sm-12">
           <h1>{{ currentCity }}</h1>
+          <img ng-if="weather.currently.icon === 'clear-night'" src="img/my-icons-collection/png/007-night.png">
+          <img ng-if="weather.currently.icon === 'clear-day'" src="img/my-icons-collection/png/012-sun.png">
           <p>{{ weather.currently.summary }}</p>
           <h2>{{ weather.currently.temperature | number: 0 }}&deg</h2>
+          <p><span class="text-muted">{{ weather.daily.data[0].temperatureLow | number: 0 }} - {{ weather.daily.data[0].temperatureHigh | number: 0 }}</span></p>
         </div>
       </div>
       <div class="row daily-weather">
@@ -58,6 +61,8 @@
               <td ng-if="day.icon === 'partly-cloudy-day'"><img src="img/my-icons-collection/png/011-cloudy.png"></td>
               <td ng-if="day.icon === 'partly-cloudy-night'"><img src="img/my-icons-collection/png/007-night.png"></td>
               <td ng-if="day.icon === 'rain'"><img src="img/my-icons-collection/png/010-storm.png"></td>
+              <td ng-if="day.icon === 'wind'"><img src="img/my-icons-collection/png/002-cloud.png"></td>
+              <td ng-if="day.icon === 'snow'"><img src="img/my-icons-collection/png/009-snowing.png"></td>
               <td>{{ day.temperatureHigh | number: 0 }}</td>
               <td>{{ day.temperatureLow | number: 0 }}</td>
             </tr>

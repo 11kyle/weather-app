@@ -6,39 +6,57 @@
     $scope.createWeather = createWeather;
 
     var input = document.getElementById('inputCity');
-    var autocomplete = new google.maps.places.Autocomplete(input, options);
     var options = {
       types: ['(cities)']
     };
+    var autocomplete = new google.maps.places.Autocomplete(input, options);
+    var place = '';
+    var name = '';
+    var latitude = '';
+    var longitude = '';
 
     // Things to load first
     function init() {
       $scope.city = {
-        name: 'Denver, CO, United States'
+        name: 'Denver, CO, United States',
+        latitude: 39.7392358,
+        longitude: -104.990251
       }
+
+      // Google autocomplete
+      google.maps.event.addListener(autocomplete, 'place_changed', function() {
+        place = autocomplete.getPlace();
+        name = place.formatted_address;
+        latitude = place.geometry.location.lat();
+        longitude = place.geometry.location.lng();
+        $scope.city.name = name.replace(/[0-9]/g, '');
+      });
 
       createWeather($scope.city);
     }
 
-    // Google autocomplete
-    google.maps.event.addDomListener(window, 'load', init);
-    /*
+    init();
+
     function clearFields() {
       $scope.city.name = "";
     }
-    */
 
     // Create a post
     function createWeather(city) {
 
-      $scope.currentCity = input.value;
-      console.log($scope.currentCity);
-      
+      $scope.currentCity = $scope.city.name;
+
       if ($scope.currentCity) {
-        city.name = $scope.currentCity;
-      } else {
-        $scope.currentCity = 'Denver, CO, United States';
+        city.name = name;
+        city.latitude = latitude;
+        city.longitude = longitude;
       }
+      console.log(city);
+      // Display city in h1
+      //$scope.currentCity = $scope.city.name;
+
+      // This won't get executed when invoked from init()
+
 
       $http
         .post("/api/weather", city) // not saying which one so must be all
@@ -47,8 +65,8 @@
           // Current day
           console.log(res.data);
           // Week
-          console.log(res.data.daily.data);
-          //clearFields();
+          //console.log(res.data.daily.data);
+          clearFields();
         });
     }
   }
