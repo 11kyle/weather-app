@@ -44,13 +44,16 @@
     // Create a post
     function createWeather(city) {
 
-      $scope.currentCity = $scope.city.name;
+
 
       if ($scope.currentCity) {
         city.name = name;
         city.latitude = latitude;
         city.longitude = longitude;
       }
+
+      $scope.currentCity = $scope.city.name;
+      
       console.log(city);
       // Display city in h1
       //$scope.currentCity = $scope.city.name;
